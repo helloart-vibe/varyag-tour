@@ -166,6 +166,7 @@ let roomChangeTimer = null;
 const cursorPosition = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 const cursorTarget = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 const markerWorldPosition = new THREE.Vector3();
+const mobilePanelQuery = window.matchMedia("(max-width: 920px)");
 
 scene.add(camera);
 camera.position.set(0, 0, 0);
@@ -245,6 +246,8 @@ function hideInitialLoader() {
     initialLoader.setAttribute("aria-hidden", "true");
   }, delay);
 }
+
+window.setTimeout(hideInitialLoader, 4500);
 
 function buildRoom(room, preparedTexture = null) {
   disposeGroup(panoramaGroup);
@@ -663,15 +666,46 @@ function setZoom(delta) {
 zoomIn.addEventListener("click", () => setZoom(-6));
 zoomOut.addEventListener("click", () => setZoom(6));
 
+function updatePanelToggleState() {
+  const isCollapsed = tourShell.classList.contains("panel-collapsed");
+  const isMobilePanel = mobilePanelQuery.matches;
+  panelToggle.classList.toggle("mobile-plan-toggle", isMobilePanel);
+  panelToggle.setAttribute("aria-expanded", String(!isCollapsed));
+
+  if (isMobilePanel) {
+    panelToggle.textContent = "";
+    panelToggle.setAttribute(
+      "aria-label",
+      isCollapsed ? "Открыть планировку" : "Закрыть планировку",
+    );
+    return;
+  }
+
+  panelToggle.textContent = isCollapsed ? "‹" : "›";
+  panelToggle.setAttribute("aria-label", isCollapsed ? "Показать панель" : "Скрыть панель");
+}
+
+function syncResponsivePanel() {
+  if (mobilePanelQuery.matches) tourShell.classList.add("panel-collapsed");
+  else tourShell.classList.remove("panel-collapsed");
+  updatePanelToggleState();
+  requestAnimationFrame(resize);
+}
+
 window.addEventListener("resize", resize);
+if (mobilePanelQuery.addEventListener) {
+  mobilePanelQuery.addEventListener("change", syncResponsivePanel);
+} else {
+  mobilePanelQuery.addListener(syncResponsivePanel);
+}
 
 panelToggle.addEventListener("click", () => {
-  const isCollapsed = tourShell.classList.toggle("panel-collapsed");
-  panelToggle.setAttribute("aria-expanded", String(!isCollapsed));
-  panelToggle.setAttribute("aria-label", isCollapsed ? "Показать панель" : "Скрыть панель");
-  panelToggle.textContent = isCollapsed ? "‹" : "›";
+  tourShell.classList.toggle("panel-collapsed");
+  updatePanelToggleState();
   requestAnimationFrame(resize);
 });
+
+syncResponsivePanel();
 
 backgroundMusic.volume = 0.28;
 clickSound.volume = 0.5;

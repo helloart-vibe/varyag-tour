@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D тур по комнатам</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="initial-loader" id="initialLoader" aria-label="Загрузка тура">
+      <div class="loader-mark">
+        <svg class="loader-ring" viewBox="0 0 160 160" aria-hidden="true">
+          <circle class="loader-ring-track" cx="80" cy="80" r="72"></circle>
+          <circle class="loader-ring-progress" cx="80" cy="80" r="72"></circle>
+        </svg>
+        <img class="loader-logo" src="./assets/logo.svg" alt="" />
+      </div>
+    </div>
+
+    <main class="tour-shell">
+      <div class="cursor-follower" id="cursorFollower" aria-hidden="true"></div>
+
+      <section class="viewer" aria-label="3D тур">
+        <canvas id="tourCanvas"></canvas>
+        <div class="room-transition-overlay" id="roomTransitionOverlay" aria-hidden="true"></div>
+        <audio id="backgroundMusic" src="./assets/background.wav" preload="auto" loop></audio>
+        <audio id="clickSound" src="./assets/click.mp3" preload="auto"></audio>
+
+        <div class="zoom-controls" aria-label="Управление зумом">
+          <button class="zoom-button" id="zoomIn" type="button" aria-label="Приблизить">+</button>
+          <button class="zoom-button" id="zoomOut" type="button" aria-label="Отдалить">−</button>
+        </div>
+
+        <button
+          class="sound-toggle"
+          id="soundToggle"
+          type="button"
+          aria-label="Включить музыку"
+          aria-pressed="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">3D tour</p>
+            <h1 id="roomTitle">Загрузка...</h1>
+          </div>
+          <div class="status" id="roomStatus">0 / 0</div>
+        </div>
+
+        <div class="room-nav" id="roomNav" aria-live="polite">Комната</div>
+        <div class="room-pulse-marker" id="roomPulseMarker" aria-hidden="true"></div>
+        <div class="direction-arrows" id="directionArrows" aria-label="Переходы между комнатами"></div>
+
+        <div class="hint" id="hint">
+          <span class="dot"></span>
+          Перетащите панораму, чтобы осмотреться. Нажмите на светящуюся точку для перехода.
+        </div>
+
+        <div class="detail-viewer" id="detailViewer" aria-hidden="true">
+          <button class="detail-close" id="detailClose" type="button" aria-label="Закрыть изображение">
+            ×
+          </button>
+          <img src="./assets/wall-detail.jpg" alt="" />
+        </div>
+      </section>
+
+      <aside class="side-panel" aria-label="Информация о комнате">
+        <button
+          class="panel-toggle"
+          id="panelToggle"
+          type="button"
+          aria-label="Скрыть панель"
+          aria-expanded="true"
+        >
+          ›
+        </button>
+
+        <div class="panel-section">
+          <h2 id="sideTitle">Планировка</h2>
+          <p id="sideText">
+            В планировку можно внести любые изменения и дополнения
+          </p>
+        </div>
+
+        <div class="panel-section transition-section">
+          <p class="eyebrow">Переходы</p>
+          <div class="transition-list" id="transitionList"></div>
+        </div>
+
+        <div class="panel-section map-section">
+          <p class="eyebrow">1 этаж</p>
+          <div class="mini-map" id="miniMap"></div>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

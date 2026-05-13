@@ -3,6 +3,7 @@ import * as THREE from "https://unpkg.com/three@0.164.1/build/three.module.js";
 const livingRoomPanorama = "./assets/1komnata.png";
 const room70Panorama = "./assets/room-7-0.png";
 const kitchenLivingPanorama = "./assets/kitchen-living-9-7.png";
+const corridorPanorama = "./assets/corridor.png";
 const portalArrowImage = `data:image/svg+xml,${encodeURIComponent(`
 <svg width="180" height="120" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(52 38)">
@@ -65,6 +66,20 @@ const rooms = {
     startYaw: 0,
     startPitch: -3.4,
     exits: [{ to: "lobby", label: "Лобби", arrowYaw: -132, pitch: -4 }],
+  },
+  corridor: {
+    title: "Коридор",
+    panelTitle: "Коридор",
+    short: "Коридор",
+    description:
+      "Панорама коридора. Эту точку можно связать стрелками с соседними комнатами после ручной настройки направлений.",
+    panorama: corridorPanorama,
+    fallback: 0x4b4238,
+    accent: 0xe1e1e1,
+    position: [58, 84],
+    startYaw: 0,
+    startPitch: -3.4,
+    exits: [{ to: "living", label: "Кухня-гостиная 9.7", arrowYaw: 104, pitch: -5 }],
   },
   office: {
     title: "Комната 7.0",
@@ -458,10 +473,10 @@ function renderUi() {
   const index = roomKeys.indexOf(activeRoomId) + 1;
   roomTitle.textContent = room.title;
   roomStatus.textContent = `${index} / ${roomKeys.length}`;
-  sideTitle.textContent = "Планировки";
+  sideTitle.textContent = "Планировка";
   sideText.textContent = "В планировку можно внести любые изменения и дополнения";
 
-  roomNav.textContent = `${room.title} м²`;
+  roomNav.textContent = /\d/.test(room.title) ? `${room.title} м²` : room.title;
   updateRoomPulseMarker();
 
   transitionList.innerHTML = "";

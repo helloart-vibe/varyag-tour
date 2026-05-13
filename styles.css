@@ -763,7 +763,8 @@ h2 {
   .panel-toggle {
     position: fixed;
     top: 20px;
-    left: 20px;
+    right: 20px;
+    left: auto;
     z-index: 86;
     width: 38px;
     height: 38px;
@@ -775,15 +776,15 @@ h2 {
     backdrop-filter: blur(8px);
   }
 
-  .panel-toggle.mobile-plan-toggle::before,
-  .panel-toggle.mobile-plan-toggle::after {
+  .panel-toggle::before,
+  .panel-toggle::after {
     content: "";
     position: absolute;
     inset: 0;
     margin: auto;
   }
 
-  .tour-shell.panel-collapsed .panel-toggle.mobile-plan-toggle::before {
+  .tour-shell.panel-collapsed .panel-toggle::before {
     width: 18px;
     height: 18px;
     border: 1.5px solid currentColor;
@@ -792,7 +793,7 @@ h2 {
       linear-gradient(currentColor, currentColor) 0 50% / 100% 1.5px no-repeat;
   }
 
-  .tour-shell.panel-collapsed .panel-toggle.mobile-plan-toggle::after {
+  .tour-shell.panel-collapsed .panel-toggle::after {
     width: 5px;
     height: 5px;
     border-radius: 50%;
@@ -800,18 +801,18 @@ h2 {
     transform: translate(5px, -5px);
   }
 
-  .tour-shell:not(.panel-collapsed) .panel-toggle.mobile-plan-toggle::before,
-  .tour-shell:not(.panel-collapsed) .panel-toggle.mobile-plan-toggle::after {
+  .tour-shell:not(.panel-collapsed) .panel-toggle::before,
+  .tour-shell:not(.panel-collapsed) .panel-toggle::after {
     width: 18px;
     height: 1.5px;
     background: currentColor;
   }
 
-  .tour-shell:not(.panel-collapsed) .panel-toggle.mobile-plan-toggle::before {
+  .tour-shell:not(.panel-collapsed) .panel-toggle::before {
     transform: rotate(45deg);
   }
 
-  .tour-shell:not(.panel-collapsed) .panel-toggle.mobile-plan-toggle::after {
+  .tour-shell:not(.panel-collapsed) .panel-toggle::after {
     transform: rotate(-45deg);
   }
 
@@ -828,7 +829,8 @@ h2 {
 
   .tour-shell.panel-collapsed .panel-toggle {
     top: 20px;
-    left: 20px;
+    right: 20px;
+    left: auto;
     pointer-events: auto;
   }
 
@@ -839,11 +841,11 @@ h2 {
 
   .room-nav {
     top: 26px;
-    right: 22px;
+    right: auto;
     bottom: auto;
-    left: auto;
+    left: 22px;
     max-width: calc(100vw - 96px);
-    text-align: right;
+    text-align: left;
   }
 
   .sound-toggle,
@@ -869,9 +871,9 @@ h2 {
   }
 
   .room-nav {
-    right: 16px;
+    right: auto;
     bottom: auto;
-    left: auto;
+    left: 16px;
     max-width: calc(100vw - 96px);
     font-size: 18px;
   }

@@ -565,18 +565,20 @@ function drawMap() {
     { room: "lobby", x: 44, y: 40 },
     { room: "living", x: 170, y: 39 },
     { room: "office", x: 44, y: 128 },
-    { room: "kitchen", x: 137, y: 135 },
-    { room: "bedroom", x: 196, y: 136 },
+    { room: "kitchen", x: 137, y: 135, disabled: true },
+    { room: "bedroom", x: 196, y: 136, disabled: true },
   ];
 
   planNodes.forEach((item) => {
     const node = document.createElement("button");
-    node.className = `map-node${item.room === activeRoomId ? " active" : ""}`;
+    const isActive = item.room === activeRoomId && !item.disabled;
+    node.className = `map-node${isActive ? " active" : ""}${item.disabled ? " disabled" : ""}`;
     node.type = "button";
     node.title = rooms[item.room].title;
     node.style.left = `${item.x}px`;
     node.style.top = `${item.y}px`;
-    node.addEventListener("click", () => setRoom(item.room));
+    node.disabled = Boolean(item.disabled);
+    if (!item.disabled) node.addEventListener("click", () => setRoom(item.room));
     miniMap.append(node);
   });
 }

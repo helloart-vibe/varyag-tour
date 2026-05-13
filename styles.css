@@ -694,6 +694,13 @@ h2 {
   box-shadow: none;
 }
 
+.map-node.disabled {
+  background: #9a9a9a;
+  cursor: default;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
 .map-node.active::after {
   content: "";
   position: absolute;

@@ -830,6 +830,24 @@ h2 {
     text-align: left;
   }
 
+  .map-section {
+    display: grid;
+    justify-items: center;
+    width: 100%;
+  }
+
+  .map-section .eyebrow {
+    width: auto;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .mini-map {
+    left: 50%;
+    justify-self: start;
+    transform: translateX(-50%);
+  }
+
   .sound-toggle,
   .tour-shell.panel-collapsed .sound-toggle {
     right: 22px;

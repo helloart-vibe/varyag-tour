@@ -187,7 +187,7 @@ const rooms = {
     fallback: 0x4b4238,
     accent: 0xe1e1e1,
     position: [58, 84],
-    startYaw: 0,
+    startYaw: 90,
     startPitch: -3.4,
     exits: [
       { to: "living", label: "Кухня-гостиная 9.7", arrowYaw: 104, pitch: -5 },

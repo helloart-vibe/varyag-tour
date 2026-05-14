@@ -736,8 +736,8 @@ h2 {
     right: 20px;
     left: auto;
     z-index: 86;
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     border: 1px solid #e1e1e1;
     border-radius: 50%;
     background: rgba(243, 239, 234, 0.94);
@@ -755,26 +755,26 @@ h2 {
   }
 
   .tour-shell.panel-collapsed .panel-toggle::before {
-    width: 18px;
-    height: 18px;
-    border: 1.5px solid currentColor;
+    width: 23px;
+    height: 23px;
+    border: 2px solid currentColor;
     background:
-      linear-gradient(currentColor, currentColor) 50% 0 / 1.5px 100% no-repeat,
-      linear-gradient(currentColor, currentColor) 0 50% / 100% 1.5px no-repeat;
+      linear-gradient(currentColor, currentColor) 50% 0 / 2px 100% no-repeat,
+      linear-gradient(currentColor, currentColor) 0 50% / 100% 2px no-repeat;
   }
 
   .tour-shell.panel-collapsed .panel-toggle::after {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: currentColor;
-    transform: translate(5px, -5px);
+    transform: translate(6px, -6px);
   }
 
   .tour-shell:not(.panel-collapsed) .panel-toggle::before,
   .tour-shell:not(.panel-collapsed) .panel-toggle::after {
-    width: 18px;
-    height: 1.5px;
+    width: 20px;
+    height: 2px;
     background: currentColor;
   }
 
@@ -807,6 +807,18 @@ h2 {
   .viewer,
   #tourCanvas {
     min-height: 100svh;
+  }
+
+  .viewer::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 56;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+    pointer-events: none;
   }
 
   .room-nav {

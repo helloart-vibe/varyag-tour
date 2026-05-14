@@ -707,6 +707,7 @@ function drawMap() {
     if (item.clipPath) node.style.setProperty("--room-shape", item.clipPath);
     node.addEventListener("click", () => {
       activePlanAreaId = item.id;
+      closeMobilePanel();
       if (item.room && item.room !== activeRoomId) {
         setRoom(item.room);
         return;
@@ -715,6 +716,13 @@ function drawMap() {
     });
     miniMap.append(node);
   });
+}
+
+function closeMobilePanel() {
+  if (!mobilePanelQuery.matches) return;
+  tourShell.classList.add("panel-collapsed");
+  updatePanelToggleState();
+  requestAnimationFrame(resize);
 }
 
 function resize() {

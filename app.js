@@ -4,16 +4,22 @@ const livingRoomPanorama = "./assets/1komnata.png";
 const room70Panorama = "./assets/room-7-0.png";
 const kitchenLivingPanorama = "./assets/kitchen-living-9-7.png";
 const corridorPanorama = "./assets/corridor.png";
-const room4Panorama = "./assets/room-4.png";
+const room112Panorama = "./assets/room-11-2.png";
+const diningSmallPanorama = "./assets/dining-11-2.png";
+const hallPanorama = "./assets/hall.png";
+const wardrobePanorama = "./assets/wardrobe.png";
+const bathroomPanorama = "./assets/bathroom.png";
 const planWidth = 190;
 const planHeight = 286;
+const secondFloorPlanWidth = 190;
+const secondFloorPlanHeight = 231;
 const floorPlanAreas = [
   {
     id: "guest",
     label: "Гостиная 17.1",
     src: "./assets/plans/гостиная 17.1.svg",
     room: "lobby",
-    x: 2.65,
+    x: 83.35,
     y: 3.65,
     width: 104,
     height: 86,
@@ -23,7 +29,7 @@ const floorPlanAreas = [
     label: "Столовая 17.8",
     src: "./assets/plans/столовая 17.8.svg",
     room: "living",
-    x: 107,
+    x: 3,
     y: 4,
     width: 80,
     height: 115,
@@ -32,17 +38,18 @@ const floorPlanAreas = [
     id: "hall",
     label: "Холл 10.0",
     src: "./assets/plans/холл 10.0.svg",
-    x: 3,
+    room: "hall",
+    x: 84,
     y: 91,
     width: 103,
     height: 75,
-    clipPath: "polygon(1% 0, 100% 0, 100% 100%, 54% 100%, 54% 57%, 0 57%, 0 0)",
+    clipPath: "polygon(99% 0, 0 0, 0 100%, 46% 100%, 46% 57%, 100% 57%, 100% 0)",
   },
   {
     id: "corridor",
     label: "Коридор",
     src: "./assets/plans/коридор.svg",
-    x: 107,
+    x: 54,
     y: 120,
     width: 29,
     height: 46,
@@ -50,8 +57,9 @@ const floorPlanAreas = [
   {
     id: "bath",
     label: "С/у 4.4",
-    src: "./assets/plans/C/у 4.4.svg",
-    x: 136,
+    src: "./assets/plans/с:у 4.4.svg",
+    room: "bedroom",
+    x: 4,
     y: 120,
     width: 50,
     height: 46,
@@ -59,9 +67,9 @@ const floorPlanAreas = [
   {
     id: "wardrobe",
     label: "Гардероб 5.8",
-    src: "./assets/plans/гардероб 5.8.svg",
+    src: "./assets/plans/гардероб.svg",
     room: "room4",
-    x: 4,
+    x: 132,
     y: 135,
     width: 54,
     height: 40,
@@ -71,7 +79,7 @@ const floorPlanAreas = [
     label: "Прихожая 4.2",
     src: "./assets/plans/Прихожая 4.2.svg",
     room: "corridor",
-    x: 60,
+    x: 96,
     y: 168,
     width: 34,
     height: 63,
@@ -81,16 +89,17 @@ const floorPlanAreas = [
     label: "Тех.помещение 5.8",
     src: "./assets/plans/Тех.помещение 5.8.svg",
     room: "office",
-    x: 2,
+    x: 132,
     y: 175,
     width: 56,
     height: 59,
   },
   {
     id: "dining-small",
-    label: "Столовая 11.2",
-    src: "./assets/plans/Столовая 11.2.svg",
-    x: 96,
+    label: "Комната 11.2",
+    src: "./assets/plans/Комната 11.2.svg",
+    room: "diningSmall",
+    x: 4,
     y: 168,
     width: 90,
     height: 63,
@@ -99,17 +108,94 @@ const floorPlanAreas = [
     id: "porch",
     label: "Крыльцо 4.6",
     src: "./assets/plans/Крыльцо 4.6.svg",
-    x: 17,
+    x: 96,
     y: 235,
     width: 77,
     height: 28,
   },
 ];
+const secondFloorPlanAreas = [
+  {
+    id: "floor2-room-15-2-left",
+    label: "Комната 15.2",
+    src: "./assets/plans/2floor/Комната 15.2 (1).svg",
+    x: 4,
+    y: 4,
+    width: 91,
+    height: 84,
+  },
+  {
+    id: "floor2-room-15-2-right",
+    label: "Комната 15.2",
+    src: "./assets/plans/2floor/Комната 15.2 (2).svg",
+    x: 95,
+    y: 4,
+    width: 91,
+    height: 84,
+  },
+  {
+    id: "floor2-bath-5",
+    label: "С/у 5.0",
+    src: "./assets/plans/2floor/сy 5.0.svg",
+    x: 4,
+    y: 89,
+    width: 46,
+    height: 56,
+  },
+  {
+    id: "floor2-wardrobe-4-7",
+    label: "Гардероб 4.7",
+    src: "./assets/plans/2floor/Гардероб 4.7.svg",
+    x: 50,
+    y: 89,
+    width: 45,
+    height: 57,
+  },
+  {
+    id: "floor2-hall",
+    label: "Холл 7.1",
+    src: "./assets/plans/2floor/Холл 7.1.svg",
+    x: 95,
+    y: 89,
+    width: 91.5,
+    height: 89,
+    clipPath: "polygon(0 100%, 0 0, 100% 0, 100% 49%, 42% 49%, 42% 100%)",
+  },
+  {
+    id: "floor2-bath-4-6",
+    label: "С/у 4.6",
+    src: "./assets/plans/2floor/су 4.6.svg",
+    x: 133,
+    y: 132,
+    width: 53,
+    height: 45,
+  },
+  {
+    id: "floor2-room-14-4",
+    label: "Комната 14.4",
+    src: "./assets/plans/2floor/Комната 14.4.svg",
+    x: 4,
+    y: 147,
+    width: 90,
+    height: 80,
+  },
+  {
+    id: "floor2-wardrobe-8-6",
+    label: "Гардероб 8.6",
+    src: "./assets/plans/2floor/Гардероб 8.6.svg",
+    x: 95,
+    y: 179,
+    width: 90,
+    height: 49,
+  },
+];
 const planByRoom = {
   lobby: "guest",
   living: "dining-large",
+  hall: "hall",
   corridor: "entry",
   room4: "wardrobe",
+  diningSmall: "dining-small",
   office: "tech",
   kitchen: "entry",
   bedroom: "bath",
@@ -125,11 +211,11 @@ const portalArrowImage = `data:image/svg+xml,${encodeURIComponent(`
 
 const rooms = {
   lobby: {
-    title: "Комната 5.6",
-    panelTitle: "Комната",
-    short: "Комната",
+    title: "Гостиная 17.1",
+    panelTitle: "Гостиная",
+    short: "Гостиная 17.1",
     description:
-      "Стартовая панорама тура с обзором главных направлений. Отсюда можно перейти в гостиную, кухню и кабинет.",
+      "Панорама гостиной. Отсюда можно перейти в соседние комнаты.",
     panorama: kitchenLivingPanorama,
     fallback: 0x27454f,
     accent: 0x36c5a3,
@@ -139,7 +225,7 @@ const rooms = {
     marker: { yaw: 166, pitch: 6 },
     showInNav: true,
     exits: [
-      { to: "office", label: "Комната 7.0", arrowYaw: 210, pitch: -3 },
+      { to: "office", label: "Тех.помещение 5.8", arrowYaw: 210, pitch: -3 },
       {
         to: "living",
         label: "Кухня-гостиная 9.7",
@@ -161,7 +247,7 @@ const rooms = {
     startYaw: -90,
     startPitch: -3.4,
     showInNav: true,
-    exits: [{ to: "lobby", label: "Комната 5.6", arrowYaw: 70, pitch: -5 }],
+    exits: [{ to: "lobby", label: "Гостиная 17.1", arrowYaw: 70, pitch: -5 }],
   },
   kitchen: {
     title: "Прихожая 2.3",
@@ -177,6 +263,21 @@ const rooms = {
     startPitch: -3.4,
     exits: [{ to: "lobby", label: "Лобби", arrowYaw: -132, pitch: -4 }],
   },
+  hall: {
+    title: "Холл 10.0",
+    panelTitle: "Холл",
+    short: "Холл 10.0",
+    description:
+      "Панорама холла. Точка подключена к планировке и готова к настройке переходов.",
+    panorama: hallPanorama,
+    fallback: 0x5b4735,
+    accent: 0xe6d4b8,
+    position: [48, 50],
+    startYaw: 0,
+    startPitch: -3.4,
+    showInNav: true,
+    exits: [{ to: "corridor", label: "Прихожая", arrowYaw: 180, pitch: -5 }],
+  },
   corridor: {
     title: "Прихожая 4.2 м²",
     panelTitle: "Прихожая",
@@ -191,30 +292,45 @@ const rooms = {
     startPitch: -3.4,
     exits: [
       { to: "living", label: "Кухня-гостиная 9.7", arrowYaw: 104, pitch: -5 },
-      { to: "room4", label: "Комната 4", arrowYaw: -72, pitch: -5 },
+      { to: "room4", label: "Гардероб 5.8", arrowYaw: -72, pitch: -5 },
+      { to: "diningSmall", label: "Комната 11.2", arrowYaw: 42, pitch: -5 },
     ],
   },
   room4: {
-    title: "Комната 4",
-    panelTitle: "Комната",
-    short: "Комната 4",
+    title: "Гардероб 5.8",
+    panelTitle: "Гардероб",
+    short: "Гардероб 5.8",
     description:
-      "Панорама свободной комнаты. Точка добавлена на свободную область планировки и готова к дальнейшей настройке переходов.",
-    panorama: room4Panorama,
+      "Панорама гардероба. Точка добавлена на планировку и готова к дальнейшей настройке переходов.",
+    panorama: wardrobePanorama,
     fallback: 0x4b3d35,
     accent: 0xe7f3d6,
     position: [34, 55],
     startYaw: 0,
     startPitch: -3.4,
-    exits: [{ to: "corridor", label: "Коридор", arrowYaw: 300, pitch: -5 }],
+    exits: [{ to: "hall", label: "Холл 10.0", arrowYaw: 250, pitch: -5 }],
+  },
+  diningSmall: {
+    title: "Комната 11.2",
+    panelTitle: "Комната",
+    short: "Комната 11.2",
+    description:
+      "Панорама комнаты. Комната подключена к планировке и готова к ручной настройке стрелок перехода.",
+    panorama: room112Panorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [68, 70],
+    startYaw: 0,
+    startPitch: -3.4,
+    exits: [{ to: "corridor", label: "Прихожая", arrowYaw: -115, pitch: -5 }],
   },
   office: {
-    title: "Комната 7.0",
-    panelTitle: "Комната",
-    short: "Комната 7.0",
+    title: "Тех.помещение 5.8",
+    panelTitle: "Тех.помещение",
+    short: "Тех.помещение 5.8",
     description:
-      "Панорамная точка кабинета. Hotspots можно расставлять вручную по yaw/pitch для каждого снимка.",
-    panorama: room70Panorama,
+      "Панорама технического помещения. Hotspots можно расставлять вручную по yaw/pitch для каждого снимка.",
+    panorama: diningSmallPanorama,
     fallback: 0x293a34,
     accent: 0x8dd7cf,
     position: [26, 72],
@@ -223,18 +339,18 @@ const rooms = {
     exits: [{ to: "lobby", label: "Лобби", arrowYaw: -35, pitch: -5 }],
   },
   bedroom: {
-    title: "Санузел 2.6",
-    panelTitle: "Санузел",
-    short: "Санузел",
+    title: "С/у 4.4",
+    panelTitle: "С/у",
+    short: "С/у 4.4",
     description:
-      "Приватная панорама. Добавление комнаты теперь сводится к новой записи с URL снимка и списком переходов.",
-    panorama: livingRoomPanorama,
+      "Панорама санузла. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: bathroomPanorama,
     fallback: 0x414760,
     accent: 0xc6a6ff,
     position: [18, 52],
     startYaw: 0,
     startPitch: -3.4,
-    exits: [{ to: "living", label: "Гостиная", arrowYaw: 148, pitch: -6 }],
+    exits: [{ to: "hall", label: "Холл 10.0", arrowYaw: -100, pitch: -6 }],
   },
 };
 
@@ -301,6 +417,7 @@ let textureRequestId = 0;
 const textureCache = new Map();
 let roomSwitchRequestId = 0;
 let activePlanAreaId = planByRoom[activeRoomId] ?? floorPlanAreas[0].id;
+let activeMapFloor = "floor1";
 let initialLoaderHidden = false;
 const initialLoaderStartedAt = performance.now();
 let cursorVisible = false;
@@ -587,6 +704,7 @@ function captureCurrentFrame(duration) {
 function applyRoom(roomId, fromPortal = false, preparedTexture = null) {
   activeRoomId = roomId;
   activePlanAreaId = planByRoom[roomId] ?? activePlanAreaId;
+  if (planByRoom[roomId]) activeMapFloor = "floor1";
   const room = rooms[roomId];
   targetYaw = THREE.MathUtils.degToRad(room.startYaw ?? 0);
   targetPitch = THREE.MathUtils.degToRad(room.startPitch ?? -3.4);
@@ -686,27 +804,83 @@ function updateRoomPulseMarker() {
 
 function drawMap() {
   miniMap.innerHTML = "";
+  const currentRoomPlanId = planByRoom[activeRoomId] ?? floorPlanAreas[0].id;
+  const floorTabs = [
+    {
+      id: "floor1",
+      label: "1 этаж",
+      width: planWidth,
+      height: planHeight,
+      areas: floorPlanAreas,
+      fallbackAreaId: currentRoomPlanId,
+    },
+    {
+      id: "floor2",
+      label: "2 этаж",
+      width: secondFloorPlanWidth,
+      height: secondFloorPlanHeight,
+      areas: secondFloorPlanAreas,
+      baseSrc: "./assets/plans/2floor/не выбрано.svg",
+    },
+  ];
+
+  const tabList = document.createElement("div");
+  tabList.className = "floor-tabs";
+  tabList.setAttribute("role", "tablist");
+  tabList.setAttribute("aria-label", "Этажи");
+  miniMap.append(tabList);
+
+  floorTabs.forEach((floor) => {
+    const tab = document.createElement("button");
+    const isSelected = floor.id === activeMapFloor;
+    tab.className = `floor-tab${isSelected ? " active" : ""}`;
+    tab.type = "button";
+    tab.textContent = floor.label;
+    tab.setAttribute("role", "tab");
+    tab.setAttribute("aria-selected", String(isSelected));
+    tab.addEventListener("click", () => {
+      activeMapFloor = floor.id;
+      drawMap();
+    });
+    tabList.append(tab);
+  });
+
+  const activeFloor = floorTabs.find((floor) => floor.id === activeMapFloor) ?? floorTabs[0];
+  renderFloorMap(activeFloor);
+}
+
+function renderFloorMap({ id, width, height, areas, fallbackAreaId = null, baseSrc = null }) {
   const activePlanArea =
-    floorPlanAreas.find((item) => item.id === activePlanAreaId) ?? floorPlanAreas[0];
+    areas.find((item) => item.id === activePlanAreaId) ??
+    areas.find((item) => item.id === fallbackAreaId) ??
+    null;
+
+  const floorMap = document.createElement("div");
+  floorMap.className = "floor-map";
+  floorMap.dataset.floor = id;
+  floorMap.style.aspectRatio = `${width} / ${height}`;
+  miniMap.append(floorMap);
+
   const planImage = document.createElement("img");
   planImage.className = "plan-image";
-  planImage.src = activePlanArea.src;
+  planImage.src = activePlanArea?.src ?? baseSrc ?? areas[0].src;
   planImage.alt = "Планировка Варяг";
-  miniMap.append(planImage);
+  floorMap.append(planImage);
 
-  floorPlanAreas.forEach((item) => {
+  areas.forEach((item) => {
     const node = document.createElement("button");
-    const isActive = item.id === activePlanArea.id;
+    const isActive = item.id === activePlanArea?.id;
     node.className = `map-room${isActive ? " active" : ""}${item.room ? "" : " plan-only"}`;
     node.type = "button";
     node.title = item.label;
-    node.style.left = `${(item.x / planWidth) * 100}%`;
-    node.style.top = `${(item.y / planHeight) * 100}%`;
-    node.style.width = `${(item.width / planWidth) * 100}%`;
-    node.style.height = `${(item.height / planHeight) * 100}%`;
+    node.style.left = `${(item.x / width) * 100}%`;
+    node.style.top = `${(item.y / height) * 100}%`;
+    node.style.width = `${(item.width / width) * 100}%`;
+    node.style.height = `${(item.height / height) * 100}%`;
     if (item.clipPath) node.style.setProperty("--room-shape", item.clipPath);
     node.addEventListener("click", () => {
       activePlanAreaId = item.id;
+      activeMapFloor = id;
       closeMobilePanel();
       if (item.room && item.room !== activeRoomId) {
         setRoom(item.room);
@@ -714,7 +888,7 @@ function drawMap() {
       }
       drawMap();
     });
-    miniMap.append(node);
+    floorMap.append(node);
   });
 }
 

@@ -3,12 +3,21 @@ import * as THREE from "https://unpkg.com/three@0.164.1/build/three.module.js";
 const livingRoomPanorama = "./assets/1komnata.png";
 const room70Panorama = "./assets/room-7-0.png";
 const kitchenLivingPanorama = "./assets/kitchen-living-9-7.png";
-const corridorPanorama = "./assets/corridor.png";
-const room112Panorama = "./assets/room-11-2.png";
-const diningSmallPanorama = "./assets/dining-11-2.png";
+const corridorPanorama = "./assets/corridor.png?v=3";
+const room112Panorama = "./assets/room-11-2.png?v=4";
+const room152Panorama = "./assets/room-15-2.png?v=4";
+const room152RightPanorama = "./assets/room-15-2-right.png?v=4";
+const room144Panorama = "./assets/room-14-4.png?v=1";
+const wardrobe47Panorama = "./assets/wardrobe-4-7.png?v=1";
+const wardrobe86Panorama = "./assets/wardrobe-8-6.png?v=1";
+const floor2Bath50Panorama = "./assets/bath-5-0.png?v=1";
+const floor2Bath46Panorama = "./assets/bath-4-6.png?v=1";
+const floor2HallPanorama = "./assets/floor2-hall.png?v=1";
+const diningSmallPanorama = "./assets/dining-11-2.png?v=4";
 const hallPanorama = "./assets/hall.png";
-const wardrobePanorama = "./assets/wardrobe.png";
-const bathroomPanorama = "./assets/bathroom.png";
+const wardrobePanorama = "./assets/wardrobe.png?v=4";
+const bathroomPanorama = "./assets/bathroom.png?v=4";
+const porchPhoto = "./assets/porch.jpg?v=2";
 const planWidth = 190;
 const planHeight = 286;
 const secondFloorPlanWidth = 190;
@@ -108,6 +117,7 @@ const floorPlanAreas = [
     id: "porch",
     label: "Крыльцо 4.6",
     src: "./assets/plans/Крыльцо 4.6.svg",
+    room: "porch",
     x: 96,
     y: 235,
     width: 77,
@@ -119,6 +129,7 @@ const secondFloorPlanAreas = [
     id: "floor2-room-15-2-left",
     label: "Комната 15.2",
     src: "./assets/plans/2floor/Комната 15.2 (1).svg",
+    room: "floor2Room152",
     x: 4,
     y: 4,
     width: 91,
@@ -128,6 +139,7 @@ const secondFloorPlanAreas = [
     id: "floor2-room-15-2-right",
     label: "Комната 15.2",
     src: "./assets/plans/2floor/Комната 15.2 (2).svg",
+    room: "floor2Room152Right",
     x: 95,
     y: 4,
     width: 91,
@@ -137,6 +149,7 @@ const secondFloorPlanAreas = [
     id: "floor2-bath-5",
     label: "С/у 5.0",
     src: "./assets/plans/2floor/сy 5.0.svg",
+    room: "floor2Bath50",
     x: 4,
     y: 89,
     width: 46,
@@ -146,6 +159,7 @@ const secondFloorPlanAreas = [
     id: "floor2-wardrobe-4-7",
     label: "Гардероб 4.7",
     src: "./assets/plans/2floor/Гардероб 4.7.svg",
+    room: "floor2Wardrobe47",
     x: 50,
     y: 89,
     width: 45,
@@ -155,6 +169,7 @@ const secondFloorPlanAreas = [
     id: "floor2-hall",
     label: "Холл 7.1",
     src: "./assets/plans/2floor/Холл 7.1.svg",
+    room: "floor2Hall",
     x: 95,
     y: 89,
     width: 91.5,
@@ -165,6 +180,7 @@ const secondFloorPlanAreas = [
     id: "floor2-bath-4-6",
     label: "С/у 4.6",
     src: "./assets/plans/2floor/су 4.6.svg",
+    room: "floor2Bath46",
     x: 133,
     y: 132,
     width: 53,
@@ -174,6 +190,7 @@ const secondFloorPlanAreas = [
     id: "floor2-room-14-4",
     label: "Комната 14.4",
     src: "./assets/plans/2floor/Комната 14.4.svg",
+    room: "floor2Room144",
     x: 4,
     y: 147,
     width: 90,
@@ -183,6 +200,7 @@ const secondFloorPlanAreas = [
     id: "floor2-wardrobe-8-6",
     label: "Гардероб 8.6",
     src: "./assets/plans/2floor/Гардероб 8.6.svg",
+    room: "floor2Wardrobe86",
     x: 95,
     y: 179,
     width: 90,
@@ -199,7 +217,23 @@ const planByRoom = {
   office: "tech",
   kitchen: "entry",
   bedroom: "bath",
+  porch: "porch",
+  floor2Room152: "floor2-room-15-2-left",
+  floor2Room152Right: "floor2-room-15-2-right",
+  floor2Room144: "floor2-room-14-4",
+  floor2Wardrobe47: "floor2-wardrobe-4-7",
+  floor2Wardrobe86: "floor2-wardrobe-8-6",
+  floor2Bath50: "floor2-bath-5",
+  floor2Bath46: "floor2-bath-4-6",
+  floor2Hall: "floor2-hall",
 };
+const floorByRoom = {};
+floorPlanAreas.forEach((item) => {
+  if (item.room) floorByRoom[item.room] = "floor1";
+});
+secondFloorPlanAreas.forEach((item) => {
+  if (item.room) floorByRoom[item.room] = "floor2";
+});
 const portalArrowImage = `data:image/svg+xml,${encodeURIComponent(`
 <svg width="180" height="120" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(52 38)">
@@ -220,12 +254,12 @@ const rooms = {
     fallback: 0x27454f,
     accent: 0x36c5a3,
     position: [50, 46],
-    startYaw: 90,
+    startYaw: 190,
     startPitch: -3.4,
-    marker: { yaw: 166, pitch: 6 },
     showInNav: true,
+    usePortalDots: true,
     exits: [
-      { to: "office", label: "Тех.помещение 5.8", arrowYaw: 210, pitch: -3 },
+      { to: "hall", label: "Холл 10.0", arrowYaw: 210, pitch: -3 },
       {
         to: "living",
         label: "Кухня-гостиная 9.7",
@@ -235,19 +269,20 @@ const rooms = {
     ],
   },
   living: {
-    title: "Кухня-гостиная 9.7",
-    panelTitle: "Кухня-гостиная",
-    short: "Кухня-гостиная",
+    title: "Столовая 17.8",
+    panelTitle: "Столовая",
+    short: "Столов  ая",
     description:
       "Панорама зоны отдыха. В реальном туре у этой комнаты будет свой снимок 360, а точки перехода останутся тем же механизмом.",
     panorama: livingRoomPanorama,
     fallback: 0x4d3c35,
     accent: 0xf2c14e,
     position: [22, 24],
-    startYaw: -90,
+    startYaw: -260,
     startPitch: -3.4,
     showInNav: true,
-    exits: [{ to: "lobby", label: "Гостиная 17.1", arrowYaw: 70, pitch: -5 }],
+    usePortalDots: true,
+    exits: [{ to: "lobby", label: "Гостиная 17.1", yaw: 92, arrowYaw: 70, pitch: -28, dotScale: 1.62 }],
   },
   kitchen: {
     title: "Прихожая 2.3",
@@ -273,10 +308,18 @@ const rooms = {
     fallback: 0x5b4735,
     accent: 0xe6d4b8,
     position: [48, 50],
-    startYaw: 0,
+    startYaw: 80,
     startPitch: -3.4,
     showInNav: true,
-    exits: [{ to: "corridor", label: "Прихожая", arrowYaw: 180, pitch: -5 }],
+    usePortalDots: true,
+    exits: [
+      { to: "diningSmall", label: "Комната 11.2", yaw: 125, arrowYaw: 180, pitch: -18 },
+      { to: "floor2Hall", label: "Холл 2 этаж", yaw: -8, arrowYaw: -120, pitch: -16, portalRotation: -0.45 },
+      { to: "lobby", label: "Гостиная 17.1", yaw: -75, arrowYaw: -55, pitch: -16, portalRotation: -0.22 },
+      { to: "room4", label: "Гардероб 4.0", yaw: 55, arrowYaw: 35, pitch: -16, portalRotation: 0.22 },
+      { to: "corridor", label: "Прихожая 4.2", yaw: 85, arrowYaw: 105, pitch: -16, portalRotation: 0.45 },
+      { to: "bedroom", label: "С/у 4.4", yaw: 146, arrowYaw: 180, pitch: -18 },
+    ],
   },
   corridor: {
     title: "Прихожая 4.2 м²",
@@ -288,18 +331,18 @@ const rooms = {
     fallback: 0x4b4238,
     accent: 0xe1e1e1,
     position: [58, 84],
-    startYaw: 90,
+    startYaw: -90,
     startPitch: -3.4,
     exits: [
-      { to: "living", label: "Кухня-гостиная 9.7", arrowYaw: 104, pitch: -5 },
-      { to: "room4", label: "Гардероб 5.8", arrowYaw: -72, pitch: -5 },
-      { to: "diningSmall", label: "Комната 11.2", arrowYaw: 42, pitch: -5 },
+      { to: "hall", label: "Холл 10.0", yaw: -92, arrowYaw: -72, pitch: -5, dotScale: 1.34 },
+      { to: "porch", label: "Крыльцо 4.6", yaw: 94, arrowYaw: 114, pitch: -5, dotScale: 1.34 },
+      { to: "office", label: "Тех.помещение 5.8", yaw: 52, arrowYaw: 32, pitch: -5, dotScale: 1.34 },
     ],
   },
   room4: {
-    title: "Гардероб 5.8",
+    title: "Гардероб 4.0",
     panelTitle: "Гардероб",
-    short: "Гардероб 5.8",
+    short: "Гардероб 4.0",
     description:
       "Панорама гардероба. Точка добавлена на планировку и готова к дальнейшей настройке переходов.",
     panorama: wardrobePanorama,
@@ -308,7 +351,7 @@ const rooms = {
     position: [34, 55],
     startYaw: 0,
     startPitch: -3.4,
-    exits: [{ to: "hall", label: "Холл 10.0", arrowYaw: 250, pitch: -5 }],
+    exits: [{ to: "hall", label: "Холл 10.0", arrowYaw: 260, pitch: -5, dotScale: 1.34 }],
   },
   diningSmall: {
     title: "Комната 11.2",
@@ -320,9 +363,145 @@ const rooms = {
     fallback: 0x5d4a3a,
     accent: 0xe7f3d6,
     position: [68, 70],
+    startYaw: 160,
+    startPitch: -3.4,
+    exits: [{ to: "hall", label: "Холл 10.0", yaw: -155, arrowYaw: -115, pitch: -5 }],
+  },
+  floor2Room152: {
+    title: "Комната 15.2",
+    panelTitle: "Комната",
+    short: "Комната 15.2",
+    description:
+      "Панорама комнаты второго этажа. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: room152Panorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [46, 42],
+    startYaw: 9,
+    startPitch: -3.4,
+    exits: [
+      { to: "floor2Wardrobe47", label: "Гардероб 4.7", arrowYaw: -5, pitch: -5, dotScale: 1.34 },
+    ],
+  },
+  floor2Room152Right: {
+    title: "Комната 15.2",
+    panelTitle: "Комната",
+    short: "Комната 15.2",
+    description:
+      "Панорама второй комнаты 15.2 на втором этаже. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: room152RightPanorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [138, 42],
+    startYaw: 160,
+    startPitch: -3.4,
+    exits: [
+      { to: "floor2Hall", label: "Холл 7.1", arrowYaw: -175, pitch: -5, dotScale: 1.34 },
+    ],
+  },
+  floor2Room144: {
+    title: "Комната 14.4",
+    panelTitle: "Комната",
+    short: "Комната 14.4",
+    description:
+      "Панорама комнаты 14.4 на втором этаже. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: room144Panorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [46, 188],
     startYaw: 0,
     startPitch: -3.4,
-    exits: [{ to: "corridor", label: "Прихожая", arrowYaw: -115, pitch: -5 }],
+    exits: [
+      { to: "floor2Hall", label: "Холл 7.1", arrowYaw: -30, pitch: -5, dotScale: 1.34 },
+    ],
+  },
+  floor2Wardrobe47: {
+    title: "Гардероб 4.7",
+    panelTitle: "Гардероб",
+    short: "Гардероб 4.7",
+    description:
+      "Панорама гардероба 4.7 на втором этаже. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: wardrobe47Panorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [72, 118],
+    startYaw: 70,
+    startPitch: -3.4,
+    exits: [
+      { to: "floor2Hall", label: "Холл 7.1", arrowYaw: -60, pitch: -27, dotScale: 2 },
+      { to: "floor2Room152", label: "Комната 15.2", arrowYaw: 172, pitch: -5, dotScale: 2 },
+      { to: "floor2Bath50", label: "С/у 5.0", arrowYaw: 105, pitch: -5, dotScale: 1.28 },
+    ],
+  },
+  floor2Wardrobe86: {
+    title: "Гардероб 8.6",
+    panelTitle: "Гардероб",
+    short: "Гардероб 8.6",
+    description:
+      "Панорама гардероба 8.6 на втором этаже. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: wardrobe86Panorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [140, 204],
+    startYaw: 50,
+    startPitch: -3.4,
+    exits: [
+      { to: "floor2Hall", label: "Холл 7.1", arrowYaw: 84, pitch: -5, dotScale: 1.34 },
+    ],
+  },
+  floor2Bath50: {
+    title: "С/у 5.0",
+    panelTitle: "Санузел",
+    short: "С/у 5.0",
+    description:
+      "Панорама санузла 5.0 на втором этаже. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: floor2Bath50Panorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [28, 117],
+    startYaw: 100,
+    startPitch: -3.4,
+    exits: [
+      { to: "floor2Wardrobe47", label: "Гардероб 4.7", arrowYaw: 102, pitch: -25, dotScale: 1.34 },
+    ],
+  },
+  floor2Bath46: {
+    title: "С/у 4.6",
+    panelTitle: "Санузел",
+    short: "С/у 4.6",
+    description:
+      "Панорама санузла 4.6 на втором этаже. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: floor2Bath46Panorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [160, 154],
+    startYaw: 0,
+    startPitch: -3.4,
+    exits: [
+      { to: "floor2Hall", label: "Холл 7.1", arrowYaw: 5, pitch: -5, dotScale: 1.6
+       },
+    ],
+  },
+  floor2Hall: {
+    title: "Холл 7.1",
+    panelTitle: "Холл",
+    short: "Холл 7.1",
+    description:
+      "Панорама холла 7.1 на втором этаже. Комната подключена к планировке и готова к настройке переходов.",
+    panorama: floor2HallPanorama,
+    fallback: 0x5d4a3a,
+    accent: 0xe7f3d6,
+    position: [140, 133],
+    startYaw: 0,
+    startPitch: -3.4,
+    exits: [
+      { to: "hall", label: "Холл 10.0", arrowYaw: -130, pitch: -6, dotScale: 1.28 },
+      { to: "floor2Bath46", label: "С/у 4.6", arrowYaw: -60, pitch: -6, dotScale: 1.28 },
+      { to: "floor2Wardrobe86", label: "Гардероб 8.6", arrowYaw: -18, pitch: -6, dotScale: 1.28 },
+      { to: "floor2Room144", label: "Комната 14.4", arrowYaw: 38, pitch: -6, dotScale: 1.28 },
+      { to: "floor2Wardrobe47", label: "Гардероб 4.7", arrowYaw: 118, pitch: -6, dotScale: 1.28 },
+      { to: "floor2Room152Right", label: "Комната 15.2", arrowYaw: 178, pitch: -6, dotScale: 1.28 },
+    ],
   },
   office: {
     title: "Тех.помещение 5.8",
@@ -334,9 +513,9 @@ const rooms = {
     fallback: 0x293a34,
     accent: 0x8dd7cf,
     position: [26, 72],
-    startYaw: 0,
+    startYaw: 105,
     startPitch: -3.4,
-    exits: [{ to: "lobby", label: "Лобби", arrowYaw: -35, pitch: -5 }],
+    exits: [{ to: "corridor", label: "Прихожая", arrowYaw: 120, pitch: -5, dotScale: 1.34 }],
   },
   bedroom: {
     title: "С/у 4.4",
@@ -348,14 +527,33 @@ const rooms = {
     fallback: 0x414760,
     accent: 0xc6a6ff,
     position: [18, 52],
+    startYaw: 298,
+    startPitch: -3.4,
+    exits: [{ to: "hall", label: "Холл 10.0", yaw: -86, arrowYaw: -110, pitch: -6, dotScale: 1.62 }],
+  },
+  porch: {
+    title: "Крыльцо 4.6",
+    panelTitle: "Крыльцо",
+    short: "Крыльцо 4.6",
+    description:
+      "Фото крыльца подключено как отдельная точка тура. Это обычное фото, поэтому обзор не будет полноценной 360-панорамой.",
+    panorama: porchPhoto,
+    projection: "flat",
+    fallback: 0x7c746b,
+    accent: 0xe7f3d6,
+    position: [62, 90],
     startYaw: 0,
     startPitch: -3.4,
-    exits: [{ to: "hall", label: "Холл 10.0", arrowYaw: -100, pitch: -6 }],
+    usePortalDots: true,
+    exits: [
+      { to: "corridor", label: "Прихожая 4.2", arrowYaw: 12, pitch: -18, dotScale: 2 },
+    ],
   },
 };
 
 const canvas = document.querySelector("#tourCanvas");
 const roomTransitionOverlay = document.querySelector("#roomTransitionOverlay");
+const roomTransitionFrame = document.querySelector("#roomTransitionFrame");
 const initialLoader = document.querySelector("#initialLoader");
 const roomTitle = document.querySelector("#roomTitle");
 const roomStatus = document.querySelector("#roomStatus");
@@ -378,7 +576,7 @@ const detailViewer = document.querySelector("#detailViewer");
 const detailClose = document.querySelector("#detailClose");
 
 const scene = new THREE.Scene();
-const defaultFov = 88;
+const defaultFov = 96;
 const camera = new THREE.PerspectiveCamera(defaultFov, 1, 0.1, 100);
 const renderer = new THREE.WebGLRenderer({
   canvas,
@@ -401,7 +599,7 @@ const roomKeys = Object.keys(rooms);
 const clock = new THREE.Clock();
 const roomFadeDuration = 1.35;
 
-let activeRoomId = "lobby";
+let activeRoomId = "porch";
 let yaw = 0;
 let pitch = -0.06;
 let targetYaw = 0;
@@ -430,6 +628,8 @@ const mobilePanelQuery = window.matchMedia("(max-width: 920px)");
 
 scene.add(camera);
 camera.position.set(0, 0, 0);
+const flatPhotoGroup = new THREE.Group();
+camera.add(flatPhotoGroup);
 
 const textureLoader = new THREE.TextureLoader();
 textureLoader.setCrossOrigin("anonymous");
@@ -478,6 +678,22 @@ function preparePanoramaTexture(texture) {
   return texture;
 }
 
+function prepareFlatTexture(texture) {
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.anisotropy = Math.min(maxAnisotropy, 4);
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = false;
+  texture.userData.keepAlive = true;
+  return texture;
+}
+
+function prepareRoomTexture(room, texture) {
+  return room.projection === "flat"
+    ? prepareFlatTexture(texture)
+    : preparePanoramaTexture(texture);
+}
+
 function loadPanoramaTexture(room) {
   const cachedTexture = textureCache.get(room.panorama);
   if (cachedTexture) return Promise.resolve(cachedTexture);
@@ -486,7 +702,7 @@ function loadPanoramaTexture(room) {
     textureLoader.load(
       room.panorama,
       (texture) => {
-        const preparedTexture = preparePanoramaTexture(texture);
+        const preparedTexture = prepareRoomTexture(room, texture);
         textureCache.set(room.panorama, preparedTexture);
         resolve(preparedTexture);
       },
@@ -509,8 +725,13 @@ function hideInitialLoader() {
 
 window.setTimeout(hideInitialLoader, 4500);
 
+function usesPortalDots(room) {
+  return Boolean(room.usePortalDots || (!room.usePortalArrows && room.exits?.length));
+}
+
 function buildRoom(room, preparedTexture = null) {
   disposeGroup(panoramaGroup);
+  disposeGroup(flatPhotoGroup);
   activePanorama = null;
   activeTexture = null;
   disposeGroup(portalGroup);
@@ -521,25 +742,16 @@ function buildRoom(room, preparedTexture = null) {
   scene.fog = null;
   const requestId = ++textureRequestId;
 
-  const panorama = new THREE.Mesh(
-    new THREE.SphereGeometry(50, 72, 36),
-    new THREE.MeshBasicMaterial({
-      color: fallbackColor,
-      side: THREE.BackSide,
-    }),
-  );
-  panorama.name = "panorama";
-  panorama.renderOrder = 1;
-  panoramaGroup.add(panorama);
-  activePanorama = panorama;
+  const projectionTarget = room.projection === "flat"
+    ? createFlatPhotoMesh(fallbackColor)
+    : createPanoramaMesh(fallbackColor);
 
   if (preparedTexture) {
     activeTexture = preparedTexture;
-    panorama.material.map = preparedTexture;
-    panorama.material.color.set(0xffffff);
-    panorama.material.needsUpdate = true;
+    applyTextureToProjection(projectionTarget, preparedTexture, room);
     if (screenFade) screenFade.ready = true;
     hideInitialLoader();
+    if (room.usePortalArrows || usesPortalDots(room)) addPortals(room);
     renderDirectionArrows(room);
     return;
   }
@@ -552,29 +764,84 @@ function buildRoom(room, preparedTexture = null) {
         return;
       }
       activeTexture = texture;
-      preparePanoramaTexture(texture);
+      prepareRoomTexture(room, texture);
       textureCache.set(room.panorama, texture);
-      panorama.material.map = texture;
-      panorama.material.color.set(0xffffff);
-      panorama.material.needsUpdate = true;
+      applyTextureToProjection(projectionTarget, texture, room);
       if (screenFade) screenFade.ready = true;
       hideInitialLoader();
     },
     undefined,
     () => {
       if (requestId !== textureRequestId) return;
-      panorama.material.color.set(room.fallback);
+      projectionTarget.material.color.set(room.fallback);
       if (screenFade) screenFade.ready = true;
       hideInitialLoader();
     },
   );
 
+  if (room.usePortalArrows || usesPortalDots(room)) addPortals(room);
   renderDirectionArrows(room);
 }
 
+function createPanoramaMesh(fallbackColor) {
+  const panorama = new THREE.Mesh(
+    new THREE.SphereGeometry(50, 72, 36),
+    new THREE.MeshBasicMaterial({
+      color: fallbackColor,
+      side: THREE.BackSide,
+    }),
+  );
+  panorama.name = "panorama";
+  panorama.renderOrder = 1;
+  panoramaGroup.add(panorama);
+  activePanorama = panorama;
+  return panorama;
+}
+
+function createFlatPhotoMesh(fallbackColor) {
+  const photo = new THREE.Mesh(
+    new THREE.PlaneGeometry(1, 1),
+    new THREE.MeshBasicMaterial({
+      color: fallbackColor,
+      side: THREE.FrontSide,
+    }),
+  );
+  photo.name = "flat-photo";
+  photo.position.set(0, 0, -8);
+  photo.renderOrder = 1;
+  flatPhotoGroup.add(photo);
+  activePanorama = photo;
+  return photo;
+}
+
+function applyTextureToProjection(target, texture, room) {
+  if (room.projection === "flat") {
+    const width = texture.image?.naturalWidth || texture.image?.width || 16;
+    const height = texture.image?.naturalHeight || texture.image?.height || 9;
+    target.userData.photoAspect = width / height;
+    resizeFlatPhotoMesh(target);
+  }
+  target.material.map = texture;
+  target.material.color.set(0xffffff);
+  target.material.needsUpdate = true;
+}
+
+function resizeFlatPhotoMesh(target = activePanorama) {
+  if (!target || target.name !== "flat-photo" || !target.userData.photoAspect) return;
+  const distance = Math.abs(target.position.z);
+  const visibleHeight = 2 * distance * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
+  const visibleWidth = visibleHeight * camera.aspect;
+  const photoAspect = target.userData.photoAspect;
+  const viewportAspect = visibleWidth / visibleHeight;
+  const planeWidth = viewportAspect > photoAspect ? visibleWidth : visibleHeight * photoAspect;
+  const planeHeight = viewportAspect > photoAspect ? visibleWidth / photoAspect : visibleHeight;
+  target.geometry.dispose();
+  target.geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
+}
+
 function addPortals(room) {
-  room.exits.forEach((exit) => {
-    const yawRad = THREE.MathUtils.degToRad(exit.yaw);
+  room.exits.forEach((exit, index) => {
+    const yawRad = THREE.MathUtils.degToRad(exit.yaw ?? exit.arrowYaw ?? 0);
     const pitchRad = THREE.MathUtils.degToRad(exit.pitch ?? -5);
     const radius = 22;
     const x = Math.sin(yawRad) * Math.cos(pitchRad) * radius;
@@ -599,27 +866,93 @@ function addPortals(room) {
     hitArea.userData = { type: "portal", to: exit.to };
     portal.add(hitArea);
 
-    const arrow = createPortalArrow();
-    arrow.userData = { type: "portal", to: exit.to };
-    portal.add(arrow);
+    const marker = usesPortalDots(room)
+      ? createPortalDot(index + 1, exit.dotScale ?? room.portalDotScale ?? 1)
+      : createPortalArrow(exit);
+    marker.userData = { type: "portal", to: exit.to };
+    portal.add(marker);
 
     portalGroup.add(portal);
-    portals.push(hitArea, arrow);
+    portals.push(hitArea, marker);
   });
 }
 
-function createPortalArrow() {
+function createPortalArrow(exit = {}) {
   const sprite = new THREE.Sprite(
     new THREE.SpriteMaterial({
       map: portalArrowTexture,
       transparent: true,
       depthWrite: false,
       depthTest: false,
+      rotation: exit.portalRotation ?? 0,
     }),
   );
   sprite.renderOrder = 10;
-  sprite.scale.set(6.5, 4.44, 1);
+  sprite.scale.set(7.2, 4.92, 1);
   sprite.position.z = 0.08;
+  return sprite;
+}
+
+function createPortalDot(_index, size = 1) {
+  const group = new THREE.Group();
+  group.userData = { type: "portal" };
+  group.scale.setScalar(size);
+
+  const pulse = new THREE.Mesh(
+    new THREE.RingGeometry(0.62, 0.92, 64),
+    new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.56,
+      depthWrite: false,
+      depthTest: false,
+      side: THREE.DoubleSide,
+    }),
+  );
+  pulse.renderOrder = 11;
+  group.add(pulse);
+
+  const core = new THREE.Mesh(
+    new THREE.CircleGeometry(0.58, 64),
+    new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1,
+      depthWrite: false,
+      depthTest: false,
+      side: THREE.DoubleSide,
+    }),
+  );
+  core.renderOrder = 12;
+  core.position.z = 0.02;
+  group.add(core);
+
+  return group;
+}
+
+function createPortalNumberLabel(index) {
+  const canvasLabel = document.createElement("canvas");
+  const context = canvasLabel.getContext("2d");
+  canvasLabel.width = 128;
+  canvasLabel.height = 128;
+  context.fillStyle = "#404040";
+  context.font = "700 54px Inter, Arial, sans-serif";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText(String(index), 64, 67);
+
+  const texture = new THREE.CanvasTexture(canvasLabel);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const sprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({
+      map: texture,
+      transparent: true,
+      depthWrite: false,
+      depthTest: false,
+    }),
+  );
+  sprite.renderOrder = 13;
+  sprite.scale.set(1.18, 1.18, 1);
   return sprite;
 }
 
@@ -685,7 +1018,7 @@ function captureCurrentFrame(duration) {
   try {
     updateCameraView();
     renderer.render(scene, camera);
-    roomTransitionOverlay.style.backgroundImage = `url("${renderer.domElement.toDataURL("image/jpeg", 0.9)}")`;
+    roomTransitionFrame.src = renderer.domElement.toDataURL("image/jpeg", 0.9);
     roomTransitionOverlay.style.opacity = "1";
     roomTransitionOverlay.classList.add("active");
     screenFade = {
@@ -697,15 +1030,19 @@ function captureCurrentFrame(duration) {
     screenFade = null;
     roomTransitionOverlay.classList.remove("active");
     roomTransitionOverlay.style.opacity = "0";
-    roomTransitionOverlay.style.backgroundImage = "";
+    roomTransitionFrame.removeAttribute("src");
   }
 }
 
 function applyRoom(roomId, fromPortal = false, preparedTexture = null) {
   activeRoomId = roomId;
   activePlanAreaId = planByRoom[roomId] ?? activePlanAreaId;
-  if (planByRoom[roomId]) activeMapFloor = "floor1";
+  if (floorByRoom[roomId]) activeMapFloor = floorByRoom[roomId];
   const room = rooms[roomId];
+  if (!fromPortal) {
+    camera.fov = defaultFov;
+  }
+  camera.updateProjectionMatrix();
   targetYaw = THREE.MathUtils.degToRad(room.startYaw ?? 0);
   targetPitch = THREE.MathUtils.degToRad(room.startPitch ?? -3.4);
   yaw = targetYaw;
@@ -743,13 +1080,32 @@ function renderUi() {
 
 function renderDirectionArrows(room) {
   directionArrows.innerHTML = "";
+  const shouldHideArrows = Boolean(room.usePortalArrows || usesPortalDots(room) || room.hideDirectionArrows);
+  directionArrows.classList.toggle("hidden", shouldHideArrows);
+  directionArrows.classList.toggle("numbered-dots", Boolean(room.numberedDirectionDots));
+  if (shouldHideArrows) return;
 
-  room.exits.forEach((exit) => {
+  const arrowCount = room.exits.length;
+  room.exits.forEach((exit, index) => {
     const button = document.createElement("button");
-    button.className = "direction-arrow";
+    button.className = room.numberedDirectionDots
+      ? "direction-arrow direction-dot"
+      : "direction-arrow";
     button.type = "button";
     button.setAttribute("aria-label", `Перейти: ${exit.label}`);
+    if (room.numberedDirectionDots) button.textContent = String(index + 1);
     button.dataset.arrowYaw = String(exit.arrowYaw ?? exit.yaw);
+    button.dataset.arrowRotationOffset = String(exit.arrowRotationOffset ?? 0);
+    if (exit.arrowScreenRotation !== undefined) {
+      button.dataset.arrowScreenRotation = String(exit.arrowScreenRotation);
+    }
+    const spread = Math.min(312, Math.max(0, (arrowCount - 1) * 78));
+    const progress = arrowCount === 1 ? 0 : index / (arrowCount - 1);
+    const normalized = progress * 2 - 1;
+    const x = arrowCount === 1 ? 0 : -spread / 2 + spread * progress;
+    const y = arrowCount === 1 ? 0 : Math.abs(normalized) * -32;
+    button.style.setProperty("--arrow-x", `${x}px`);
+    button.style.setProperty("--arrow-y", `${y}px`);
     button.addEventListener("click", () => setRoom(exit.to, true));
     directionArrows.append(button);
   });
@@ -764,8 +1120,13 @@ function normalizeDegrees(value) {
 function updateDirectionArrows() {
   const currentYaw = THREE.MathUtils.radToDeg(yaw);
   directionArrows.querySelectorAll(".direction-arrow").forEach((button) => {
+    if (button.dataset.arrowScreenRotation !== undefined) {
+      button.style.setProperty("--arrow-rotation", `${button.dataset.arrowScreenRotation}deg`);
+      return;
+    }
     const arrowYaw = Number(button.dataset.arrowYaw);
-    const relativeYaw = normalizeDegrees(arrowYaw - currentYaw);
+    const offset = Number(button.dataset.arrowRotationOffset);
+    const relativeYaw = normalizeDegrees(arrowYaw - currentYaw + offset);
     button.style.setProperty("--arrow-rotation", `${relativeYaw}deg`);
   });
 }
@@ -873,21 +1234,28 @@ function renderFloorMap({ id, width, height, areas, fallbackAreaId = null, baseS
     node.className = `map-room${isActive ? " active" : ""}${item.room ? "" : " plan-only"}`;
     node.type = "button";
     node.title = item.label;
+    if (!item.room) {
+      node.disabled = true;
+      node.setAttribute("aria-hidden", "true");
+      node.tabIndex = -1;
+    }
     node.style.left = `${(item.x / width) * 100}%`;
     node.style.top = `${(item.y / height) * 100}%`;
     node.style.width = `${(item.width / width) * 100}%`;
     node.style.height = `${(item.height / height) * 100}%`;
     if (item.clipPath) node.style.setProperty("--room-shape", item.clipPath);
-    node.addEventListener("click", () => {
-      activePlanAreaId = item.id;
-      activeMapFloor = id;
-      closeMobilePanel();
-      if (item.room && item.room !== activeRoomId) {
-        setRoom(item.room);
-        return;
-      }
-      drawMap();
-    });
+    if (item.room) {
+      node.addEventListener("click", () => {
+        activePlanAreaId = item.id;
+        activeMapFloor = id;
+        closeMobilePanel();
+        if (item.room !== activeRoomId) {
+          setRoom(item.room);
+          return;
+        }
+        drawMap();
+      });
+    }
     floorMap.append(node);
   });
 }
@@ -904,6 +1272,7 @@ function resize() {
   renderer.setSize(clientWidth, clientHeight, false);
   camera.aspect = clientWidth / clientHeight;
   camera.updateProjectionMatrix();
+  resizeFlatPhotoMesh();
 }
 
 function updatePointer(event) {
@@ -938,6 +1307,11 @@ function hideCursorFollower() {
 
 canvas.addEventListener("pointerdown", (event) => {
   updateCursorTarget(event);
+  if (rooms[activeRoomId]?.projection === "flat") {
+    isDragging = false;
+    hasDragged = false;
+    return;
+  }
   isDragging = true;
   hasDragged = false;
   lastPoint = { x: event.clientX, y: event.clientY };
@@ -969,7 +1343,9 @@ canvas.addEventListener("pointermove", (event) => {
 canvas.addEventListener("pointerup", (event) => {
   updateCursorTarget(event);
   isDragging = false;
-  canvas.releasePointerCapture(event.pointerId);
+  if (canvas.hasPointerCapture(event.pointerId)) {
+    canvas.releasePointerCapture(event.pointerId);
+  }
   if (!hasDragged) {
     const portal = findPortal(event);
     if (portal?.userData.to) {
@@ -999,11 +1375,13 @@ canvas.addEventListener("wheel", (event) => {
   event.preventDefault();
   camera.fov = THREE.MathUtils.clamp(camera.fov + event.deltaY * 0.02, 46, 96);
   camera.updateProjectionMatrix();
+  resizeFlatPhotoMesh();
 });
 
 function setZoom(delta) {
   camera.fov = THREE.MathUtils.clamp(camera.fov + delta, 46, 96);
   camera.updateProjectionMatrix();
+  resizeFlatPhotoMesh();
 }
 
 zoomIn.addEventListener("click", () => setZoom(-6));
@@ -1124,9 +1502,12 @@ function animate() {
 
   portalGroup.children.forEach((portal, index) => {
     portal.lookAt(camera.position);
-    portal.children.forEach((child) => {
+    portal.traverse((child) => {
       if (child.material?.opacity !== undefined && child.geometry?.type === "RingGeometry") {
-        child.material.opacity = 0.56 + Math.sin(clock.elapsedTime * 3 + index) * 0.1;
+        const pulse = (Math.sin(clock.elapsedTime * 2.4 + index * 0.65) + 1) / 2;
+        child.material.opacity = 0.18 + (1 - pulse) * 0.46;
+        const scale = 0.86 + pulse * 0.36;
+        child.scale.set(scale, scale, 1);
       }
     });
   });
@@ -1140,7 +1521,7 @@ function animate() {
       screenFade = null;
       roomTransitionOverlay.classList.remove("active");
       roomTransitionOverlay.style.opacity = "0";
-      roomTransitionOverlay.style.backgroundImage = "";
+      roomTransitionFrame.removeAttribute("src");
     }
   }
 

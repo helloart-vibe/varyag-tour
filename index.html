@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3D тур по комнатам</title>
-    <link rel="stylesheet" href="./styles.css?v=2floor" />
+    <link rel="stylesheet" href="./styles.css?v=floor-tabs-pill-3" />
   </head>
   <body>
     <div class="initial-loader" id="initialLoader" aria-label="Загрузка тура">
@@ -21,8 +21,13 @@
       <div class="cursor-follower" id="cursorFollower" aria-hidden="true"></div>
 
       <section class="viewer" aria-label="3D тур">
+        <a class="corner-logo" href="https://www.terem-pro.ru" target="_blank" rel="noopener" aria-label="Перейти на сайт Терем">
+          <img src="./assets/logo.svg" alt="" />
+        </a>
         <canvas id="tourCanvas"></canvas>
-        <div class="room-transition-overlay" id="roomTransitionOverlay" aria-hidden="true"></div>
+        <div class="room-transition-overlay" id="roomTransitionOverlay" aria-hidden="true">
+          <img id="roomTransitionFrame" alt="" />
+        </div>
         <audio id="backgroundMusic" src="./assets/background.wav" preload="auto" loop></audio>
         <audio id="clickSound" src="./assets/click.mp3" preload="auto"></audio>
 
@@ -95,9 +100,11 @@
         <div class="panel-section map-section">
           <div class="mini-map" id="miniMap"></div>
         </div>
+
+        <div class="project-label">Проект Норд 6</div>
       </aside>
     </main>
 
-    <script type="module" src="./app.js"></script>
+  <script type="module" src="./app.js?v=plan-only-disabled-1"></script>
   </body>
 </html>

@@ -156,6 +156,30 @@ button {
   background: #17191a;
 }
 
+.corner-logo {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 64;
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: auto;
+}
+
+.corner-logo img {
+  width: 36px;
+  height: 36px;
+  display: block;
+  filter: brightness(0) invert(1);
+  transform: translateY(-3px);
+}
+
 #tourCanvas {
   display: block;
   width: 100%;
@@ -169,11 +193,16 @@ button {
   inset: 0;
   z-index: 50;
   display: block;
-  background-position: center;
-  background-size: cover;
   opacity: 0;
   pointer-events: none;
   will-change: opacity;
+}
+
+.room-transition-overlay img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
 }
 
 .room-transition-overlay.active {
@@ -338,18 +367,22 @@ h2 {
 .direction-arrows {
   position: fixed;
   left: 50%;
-  bottom: 58px;
+  bottom: 44px;
   z-index: 58;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 26px;
+  width: min(520px, calc(100vw - 180px));
+  height: 132px;
   pointer-events: none;
   transform: translateX(-50%);
 }
 
+.direction-arrows.hidden {
+  display: none;
+}
+
 .direction-arrow {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
   display: block;
   width: 96px;
   height: 72px;
@@ -357,6 +390,7 @@ h2 {
   background: transparent;
   cursor: pointer;
   pointer-events: auto;
+  transform: translate(calc(-50% + var(--arrow-x, 0px)), var(--arrow-y, 0px));
 }
 
 .direction-arrow::before,
@@ -387,6 +421,66 @@ h2 {
 
 .direction-arrow:hover::after {
   filter: drop-shadow(0 14px 8px rgba(0, 0, 0, 0.36));
+}
+
+.direction-arrows.numbered-dots {
+  width: min(500px, calc(100vw - 180px));
+  height: 116px;
+}
+
+.direction-dot {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #404040;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 14px 18px rgba(0, 0, 0, 0.2);
+}
+
+.direction-dot::before,
+.direction-dot::after {
+  content: "";
+  position: absolute;
+  inset: -11px;
+  left: -11px;
+  width: auto;
+  height: auto;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  background: transparent;
+  clip-path: none;
+  filter: none;
+  transform: none;
+  animation: directionDotPulse 1.85s ease-out infinite;
+}
+
+.direction-dot::after {
+  inset: -20px;
+  left: -20px;
+  border-color: rgba(255, 255, 255, 0.34);
+  animation-delay: 0.35s;
+}
+
+.direction-dot:hover {
+  box-shadow: 0 16px 22px rgba(0, 0, 0, 0.26);
+}
+
+@keyframes directionDotPulse {
+  0% {
+    opacity: 0.88;
+    transform: scale(0.72);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
 }
 
 .sound-toggle {
@@ -563,6 +657,7 @@ h2 {
   position: relative;
   display: grid;
   align-content: start;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: 46px;
   min-height: 100vh;
   padding: 34px 30px 28px 24px;
@@ -664,26 +759,27 @@ h2 {
 .floor-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  padding: 2px;
-  border: 1px solid rgba(64, 64, 64, 0.18);
-  border-radius: 8px;
-  background: rgba(64, 64, 64, 0.08);
+  gap: 0;
+  padding: 5px;
+  border: 0;
+  border-radius: 999px;
+  background: #e8e4e1;
 }
 
 .floor-tab {
-  min-height: 34px;
+  min-height: 40px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 999px;
   background: transparent;
   color: var(--panel-text);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .floor-tab.active {
-  background: var(--panel-text);
-  color: var(--panel);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--panel-text);
   cursor: default;
 }
 
@@ -722,6 +818,14 @@ h2 {
   outline: 0;
 }
 
+.map-room.plan-only,
+.map-room.plan-only:hover,
+.map-room.plan-only:focus-visible {
+  background: transparent;
+  cursor: default;
+  pointer-events: none;
+}
+
 .map-room.active {
   cursor: default;
 }
@@ -737,6 +841,17 @@ h2 {
   font-weight: 400;
   letter-spacing: 0;
   text-transform: none;
+}
+
+.project-label {
+  position: absolute;
+  right: 30px;
+  bottom: 20px;
+  left: 24px;
+  color: #969696;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 @media (max-width: 920px) {
@@ -759,6 +874,12 @@ h2 {
     border: 0;
     background: var(--panel);
     overflow-y: auto;
+  }
+
+  .project-label {
+    right: 24px;
+    bottom: 20px;
+    left: 24px;
   }
 
   .map-section {
@@ -867,6 +988,10 @@ h2 {
     text-align: left;
   }
 
+  .corner-logo {
+    display: none;
+  }
+
   .map-section {
     display: grid;
     justify-items: center;
@@ -880,9 +1005,10 @@ h2 {
   }
 
   .mini-map {
-    left: 50%;
-    justify-self: start;
-    transform: translateX(-50%);
+    justify-self: center;
+    width: min(230px, calc(100vw - 48px));
+    margin-inline: auto;
+    transform: none;
   }
 
   .sound-toggle,
@@ -916,8 +1042,9 @@ h2 {
   }
 
   .direction-arrows {
-    bottom: 54px;
-    gap: 14px;
+    bottom: 48px;
+    width: calc(100vw - 112px);
+    height: 112px;
   }
 
   .direction-arrow {

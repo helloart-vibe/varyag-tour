@@ -870,7 +870,7 @@ h2 {
     align-content: start;
     min-height: 100svh;
     height: 100svh;
-    padding: 86px 24px 28px;
+    padding: 56px 24px 28px;
     border: 0;
     background: var(--panel);
     overflow-y: auto;

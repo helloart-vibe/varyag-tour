@@ -625,6 +625,7 @@ const cursorPosition = new THREE.Vector2(window.innerWidth / 2, window.innerHeig
 const cursorTarget = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 const markerWorldPosition = new THREE.Vector3();
 const mobilePanelQuery = window.matchMedia("(max-width: 920px)");
+const mobilePortalDotScale = 1.5;
 
 scene.add(camera);
 camera.position.set(0, 0, 0);
@@ -841,6 +842,9 @@ function resizeFlatPhotoMesh(target = activePanorama) {
 
 function addPortals(room) {
   room.exits.forEach((exit, index) => {
+    const showDot = usesPortalDots(room);
+    const baseDotScale = exit.dotScale ?? room.portalDotScale ?? 1;
+    const dotScale = getResponsivePortalDotScale(baseDotScale);
     const yawRad = THREE.MathUtils.degToRad(exit.yaw ?? exit.arrowYaw ?? 0);
     const pitchRad = THREE.MathUtils.degToRad(exit.pitch ?? -5);
     const radius = 22;
@@ -863,17 +867,39 @@ function addPortals(room) {
       }),
     );
     hitArea.position.z = 0.03;
-    hitArea.userData = { type: "portal", to: exit.to };
+    if (showDot) hitArea.scale.setScalar(dotScale);
+    hitArea.userData = {
+      type: "portal",
+      to: exit.to,
+      isPortalHitArea: showDot,
+      baseScale: baseDotScale,
+    };
     portal.add(hitArea);
 
-    const marker = usesPortalDots(room)
-      ? createPortalDot(index + 1, exit.dotScale ?? room.portalDotScale ?? 1)
+    const marker = showDot
+      ? createPortalDot(index + 1, dotScale)
       : createPortalArrow(exit);
-    marker.userData = { type: "portal", to: exit.to };
+    marker.userData = {
+      type: "portal",
+      to: exit.to,
+      isPortalDot: showDot,
+      baseScale: baseDotScale,
+    };
     portal.add(marker);
 
     portalGroup.add(portal);
     portals.push(hitArea, marker);
+  });
+}
+
+function getResponsivePortalDotScale(baseScale = 1) {
+  return baseScale * (mobilePanelQuery.matches ? mobilePortalDotScale : 1);
+}
+
+function updatePortalDotScales() {
+  portalGroup.traverse((node) => {
+    if (!node.userData?.isPortalDot && !node.userData?.isPortalHitArea) return;
+    node.scale.setScalar(getResponsivePortalDotScale(node.userData.baseScale ?? 1));
   });
 }
 
@@ -1273,6 +1299,7 @@ function resize() {
   camera.aspect = clientWidth / clientHeight;
   camera.updateProjectionMatrix();
   resizeFlatPhotoMesh();
+  updatePortalDotScales();
 }
 
 function updatePointer(event) {

@@ -884,6 +884,7 @@ h2 {
 
   .map-section {
     max-height: none;
+    margin-top: -15px;
     overflow: visible;
     padding-right: 0;
   }
